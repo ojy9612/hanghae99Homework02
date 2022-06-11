@@ -10,7 +10,6 @@ import java.util.List;
 public class UserDetailsImpl implements UserDetails {
 
     private final String username;
-
     private final List<String> roles;
     private String password;
 

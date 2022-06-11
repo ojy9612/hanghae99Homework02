@@ -2,7 +2,6 @@ package com.homework.hanghae99homework02.model;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -37,6 +36,23 @@ public class User{
 
     @Column(nullable = false, unique = true)
     private String nickname;
+
+    @OneToOne(mappedBy = "user")
+    private Board board;
+
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+    @PrimaryKeyJoinColumn
+    private Good good;
+
+//    public void addGood(Good good){
+//        good.setUser(this);
+//        this.good = good;
+//    }
+//
+//    public void addBoard(Board board){
+//        board.setUser(this);
+//        this.board = board;
+//    }
 
     @Builder
     public User(String username, String password, List<String> roles, String email, String nickname) {

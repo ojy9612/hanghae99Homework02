@@ -40,8 +40,6 @@ public class UserService {
     public String loginUser(UserDto userDto) {
         User user = userRepository.findByUsername(userDto.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("ID를 찾을 수 없습니다."));
-        System.out.println("user.getId() = " + user.getId());
-        System.out.println("user.pass() = " + user.getPassword());
         if(!passwordEncoder.matches(userDto.getPassword(),user.getPassword())){
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }

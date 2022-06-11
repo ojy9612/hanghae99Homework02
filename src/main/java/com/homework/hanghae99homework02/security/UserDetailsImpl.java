@@ -1,32 +1,40 @@
 package com.homework.hanghae99homework02.security;
 
-import com.homework.hanghae99homework02.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 public class UserDetailsImpl implements UserDetails {
 
-    private final User user;
+    private final String username;
 
-    public UserDetailsImpl(User user) {
-        this.user = user;
+    private final List<String> roles;
+    private String password;
+
+    public UserDetailsImpl(String username, List<String> roles) {
+        this.username = username;
+        this.roles = roles;
     }
 
-    public User getUser() {
-        return user;
+    public UserDetailsImpl(String username,List<String> roles, String password) {
+        this.username = username;
+        this.roles = roles;
+        this.password = password;
     }
+
+
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return username;
     }
 
     @Override

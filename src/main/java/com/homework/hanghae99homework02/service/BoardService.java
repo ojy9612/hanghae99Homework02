@@ -33,7 +33,7 @@ public class BoardService {
         User user = userRepository.findByUsername(userDetailsImpl.getUsername()).orElseThrow(
                 () -> new IllegalArgumentException("해당 유저를 찾을 수 없습니다.")
         );
-        Board board = new Board(boardDto.getTitle(),
+        Board board = new Board(boardDto.getImage(),
                 boardDto.getContent(),
                 user,null);
 
@@ -60,7 +60,7 @@ public class BoardService {
             boardRepository.delete(board);
             return board_id;
         }else{
-            return null; // Bac Request 400 에러 보내기 https://bcp0109.tistory.com/303 TODO
+            return null; // Bad Request 400 에러 보내기 https://bcp0109.tistory.com/303 TODO
         }
 
     }

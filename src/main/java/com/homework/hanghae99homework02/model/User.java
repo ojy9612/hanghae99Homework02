@@ -42,17 +42,7 @@ public class User{
 
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
     @PrimaryKeyJoinColumn
-    private Good good;
-
-//    public void addGood(Good good){
-//        good.setUser(this);
-//        this.good = good;
-//    }
-//
-//    public void addBoard(Board board){
-//        board.setUser(this);
-//        this.board = board;
-//    }
+    private Likes likes;
 
     @Builder
     public User(String username, String password, List<String> roles, String email, String nickname) {

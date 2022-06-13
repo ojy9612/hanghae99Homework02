@@ -1,22 +1,17 @@
 package com.homework.hanghae99homework02.service;
 
 import com.homework.hanghae99homework02.dto.BoardDto;
-import com.homework.hanghae99homework02.model.Board;
 import com.homework.hanghae99homework02.model.User;
 import com.homework.hanghae99homework02.repository.BoardRepository;
 import com.homework.hanghae99homework02.repository.UserRepository;
-import com.homework.hanghae99homework02.security.UserDetailsImpl;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Collections;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -42,7 +37,7 @@ class BoardServiceTest {
                 .build();
         user.setId(1L);
         BoardDto boardDto = new BoardDto();
-        boardDto.setTitle("제목1");
+        boardDto.setImage("제목1");
         boardDto.setContent("내용1");
 //        Board board = new Board(boardDto.getTitle(),boardDto.getContent(),user);
 //        board.setId(1L);

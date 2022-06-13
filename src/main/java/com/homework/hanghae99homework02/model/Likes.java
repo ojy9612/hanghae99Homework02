@@ -10,7 +10,7 @@ import java.util.List;
 @Setter
 @Getter
 @Entity
-public class Good {
+public class Likes {
 
     @Id
     private Long id;
@@ -20,14 +20,14 @@ public class Good {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "good")
+    @OneToMany(mappedBy = "likes")
     private List<Board> boardList = new ArrayList<>();
 
     public void addBoard(Board board){
-        board.setGood(this);
+        board.setLikes(this);
         this.boardList.add(board);
     }
 
-    public Good() {}
+    public Likes() {}
 
 }

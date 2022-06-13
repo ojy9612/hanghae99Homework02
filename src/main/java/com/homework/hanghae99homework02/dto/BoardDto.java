@@ -8,6 +8,6 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 public class BoardDto {
-    private String title;
+    private String image;
     private String content;
 }

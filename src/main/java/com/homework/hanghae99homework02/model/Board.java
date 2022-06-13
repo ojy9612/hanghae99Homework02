@@ -3,9 +3,7 @@ package com.homework.hanghae99homework02.model;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.homework.hanghae99homework02.dto.BoardDto;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -21,7 +19,7 @@ public class Board {
     private Long id;
 
     @Column
-    private String title;
+    private String image;
 
     @Column
     private String content;
@@ -31,21 +29,21 @@ public class Board {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private Good good;
+    @JoinColumn
+    private Likes likes;
 
 
-    public Board(String title, String content, User user, Good good) {
-        this.title = title;
+    public Board(String image, String content, User user, Likes likes) {
+        this.image = image;
         this.content = content;
         this.user = user;
-        if(good != null){
-            good.addBoard(this);
+        if(likes != null){
+            likes.addBoard(this);
         }
     }
 
     public void update(BoardDto boardDto){
-        this.title = boardDto.getTitle();
+        this.image = boardDto.getImage();
         this.content = boardDto.getContent();
     }
 

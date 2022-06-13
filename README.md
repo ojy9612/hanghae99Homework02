@@ -19,3 +19,5 @@
 
 3. (More than one row with the given identifier was found) 에러 게시글을 3개 작성했을 때 나온다.
 - 해결 - 게시글과 유저는 OneToMany 관계인데 OneToOne을 사용했을 때 나오는 에러였다..
+
+4. 게시글 작성시 userDetailsImpl 객체에서 유저 정보를 받아오지만 Board객체를 생성할때엔 User객체가 필요해 결국 User관련 DB쿼리문이 2번 발생한다. 1번문제 다시 발생..  객체대신 아이디만 저장해야할까?(그럼 외래키는 어떻게 해야하지?)

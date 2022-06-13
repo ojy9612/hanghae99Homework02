@@ -16,3 +16,6 @@
 
 2. (should be mapped with insert="false" update="false") 에러 board테이블에서 자꾸 해당 에러가 뜬다.
 - 해결 - JoinColumn의 name이 중복되서 나타나는 문제였다. name은 내 테이블에 설정한 문자로 컬럼을 생성하라는 뜻으로 상대 테이블과 매핑시켜주는 역할을 하지 않는다.
+
+3. (More than one row with the given identifier was found) 에러 게시글을 3개 작성했을 때 나온다.
+- 해결 - 게시글과 유저는 OneToMany 관계인데 OneToOne을 사용했을 때 나오는 에러였다..

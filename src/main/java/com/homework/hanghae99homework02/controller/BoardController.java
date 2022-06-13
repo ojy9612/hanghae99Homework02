@@ -28,7 +28,8 @@ public class BoardController {
 
     @PostMapping("/api/board")
     public Board createBoard(@RequestBody BoardDto boardDto,@AuthenticationPrincipal UserDetailsImpl userDetails){
-
+        System.out.println("boardDto.getContent() = " + boardDto.getContent());
+        System.out.println("userDetails.getUsername() = " + userDetails.getUsername());
         return boardService.createBoard(boardDto,userDetails);
     }
 

@@ -30,12 +30,14 @@ public class BoardService {
     }
 
     public Board createBoard(BoardDto boardDto, UserDetailsImpl userDetailsImpl) {
-        User user = userRepository.findByUsername(userDetailsImpl.getUsername()).orElseThrow(
+        User user = userRepository.findByEmail(userDetailsImpl.getUsername()).orElseThrow(
                 () -> new IllegalArgumentException("해당 유저를 찾을 수 없습니다.")
         );
         Board board = new Board(boardDto.getImage(),
                 boardDto.getContent(),
                 user,null);
+        System.out.println("user.getEmail() = " + user.getEmail());
+        System.out.println("board.getImage() = " + board.getImage());
 
         return boardRepository.save(board);
     }
@@ -52,7 +54,7 @@ public class BoardService {
         Board board = boardRepository.findById(board_id).orElseThrow(
                 () -> new IllegalArgumentException("ID를 찾을 수 없습니다.")
         );
-        User user = userRepository.findByUsername(userDetailsImpl.getUsername()).orElseThrow(
+        User user = userRepository.findByEmail(userDetailsImpl.getUsername()).orElseThrow(
                 () -> new IllegalArgumentException("해당 유저를 찾을 수 없습니다.")
         );
 
@@ -70,7 +72,7 @@ public class BoardService {
         Board board = boardRepository.findById(board_id).orElseThrow(
                 () -> new IllegalArgumentException("ID를 찾을 수 없습니다.")
         );
-        User user = userRepository.findByUsername(userDetailsImpl.getUsername()).orElseThrow(
+        User user = userRepository.findByEmail(userDetailsImpl.getUsername()).orElseThrow(
                 () -> new IllegalArgumentException("해당 유저를 찾을 수 없습니다.")
         );
 

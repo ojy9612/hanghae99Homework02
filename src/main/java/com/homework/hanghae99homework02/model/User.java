@@ -10,19 +10,16 @@ import java.util.List;
 
 
 @Setter
-@Getter // get 함수를 일괄적으로 만들어줍니다.
-@Entity // DB 테이블 역할을 합니다.
+@Getter
+@Entity
 public class User{
 
-    // ID가 자동으로 생성 및 증가합니다.
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private Long id;
 
-    // nullable: null 허용 여부
-    // unique: 중복 허용 여부 (false 일때 중복 허용)
-    @Column(nullable = false, unique = true)
-    private String username;
+    @Column(nullable = false)
+    private String name;
 
     @Column(nullable = false)
     private String password;
@@ -34,19 +31,26 @@ public class User{
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String nickname;
 
-    @OneToOne(mappedBy = "user")
-    private Board board;
+    @Column
+    private int layout = 1;
 
-    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
-    @PrimaryKeyJoinColumn
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Board> boardList = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
     private Likes likes;
 
+    public void addBoard(Board board){
+        this.boardList.add(board);
+        board.setUser(this);
+    }
+
     @Builder
-    public User(String username, String password, List<String> roles, String email, String nickname) {
-        this.username = username;
+    public User(String name, String password, List<String> roles, String email, String nickname) {
+        this.name = name;
         this.password = password;
         this.roles = roles;
         this.email = email;

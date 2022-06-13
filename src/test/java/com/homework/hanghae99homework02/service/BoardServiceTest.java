@@ -29,7 +29,7 @@ class BoardServiceTest {
     @DisplayName("게시글 생성")
     void createBoard() {
         User user = User.builder()
-                .username("아이디1")
+                .name("아이디1")
                 .password("비밀번호")
                 .roles(Collections.singletonList("ROLE_USER"))
                 .email("이메일1@메일.일")

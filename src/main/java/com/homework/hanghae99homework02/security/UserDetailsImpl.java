@@ -1,30 +1,29 @@
 package com.homework.hanghae99homework02.security;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserDetailsImpl implements UserDetails {
 
-    private final String username;
+    private final String email;
     private final List<String> roles;
     private String password;
 
-    public UserDetailsImpl(String username, List<String> roles) {
-        this.username = username;
+    public UserDetailsImpl(String email, List<String> roles) {
+        this.email = email;
         this.roles = roles;
     }
 
-    public UserDetailsImpl(String username,List<String> roles, String password) {
-        this.username = username;
+    public UserDetailsImpl(String email, List<String> roles, String password) {
+        this.email = email;
         this.roles = roles;
         this.password = password;
     }
-
-
 
     @Override
     public String getPassword() {
@@ -33,7 +32,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return email;
     }
 
     @Override
@@ -58,6 +57,8 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
+        return this.roles.stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
     }
 }

@@ -5,12 +5,13 @@ import com.homework.hanghae99homework02.dto.UserDto;
 import com.homework.hanghae99homework02.jwt.JwtTokenProvider;
 import com.homework.hanghae99homework02.model.User;
 import com.homework.hanghae99homework02.repository.UserRepository;
+import com.homework.hanghae99homework02.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -21,28 +22,37 @@ public class UserService {
     private final JwtTokenProvider jwtTokenProvider;
 
     public void registerUser(RegisterDto registerDto) {
-        String username = registerDto.getUsername();
+        String email = registerDto.getEmail();
         // 회원 ID 중복 확인
-        Optional<User> found = userRepository.findByUsername(username);
+        Optional<User> found = userRepository.findByEmail(email);
         if (found.isPresent()) {
             throw new IllegalArgumentException("중복된 사용자 ID 가 존재합니다.");
         }
-        System.out.println("registerDto1 = " + registerDto.getUsername());
         userRepository.save(User.builder()
-                .username(username)
+                .name(registerDto.getName())
                 .password(passwordEncoder.encode(registerDto.getPassword()))
                 .roles(Collections.singletonList("ROLE_USER"))
-                .email(registerDto.getEmail())
+                .email(email)
                 .nickname(registerDto.getNickname())
                 .build());
     }
 
     public String loginUser(UserDto userDto) {
-        User user = userRepository.findByUsername(userDto.getUsername())
+        User user = userRepository.findByEmail(userDto.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("ID를 찾을 수 없습니다."));
         if(!passwordEncoder.matches(userDto.getPassword(),user.getPassword())){
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
-        return jwtTokenProvider.createToken(user.getUsername(), user.getRoles());
+        return jwtTokenProvider.createToken(user.getEmail(), user.getRoles());
+    }
+
+    @Transactional
+    public int setLayout(int layout, UserDetailsImpl userDetailsImpl) {
+        User user = userRepository.findByEmail(userDetailsImpl.getUsername()).orElseThrow(
+                () -> new IllegalArgumentException("해당 유저를 찾을 수 없습니다.")
+        );
+
+        user.setLayout(layout);
+        return layout;
     }
 }

@@ -24,7 +24,7 @@ public class Board {
     @Column
     private String content;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private User user;
 
@@ -36,7 +36,7 @@ public class Board {
     public Board(String image, String content, User user, Likes likes) {
         this.image = image;
         this.content = content;
-        this.user = user;
+        user.addBoard(this);
         if(likes != null){
             likes.addBoard(this);
         }

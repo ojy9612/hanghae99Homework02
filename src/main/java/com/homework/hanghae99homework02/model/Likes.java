@@ -10,24 +10,30 @@ import java.util.List;
 @Setter
 @Getter
 @Entity
-public class Likes {
+public class Likes{
 
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private Long id;
 
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "user_id")
-    private User user;
+    @OneToMany(mappedBy = "likes", fetch = FetchType.LAZY)
+    private List<User> userList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "likes")
+    @OneToMany(mappedBy = "likes", fetch = FetchType.LAZY)
     private List<Board> boardList = new ArrayList<>();
+
+    public void addUser(User user){
+        user.setLikes(this);
+        this.userList.add(user);
+    }
 
     public void addBoard(Board board){
         board.setLikes(this);
         this.boardList.add(board);
     }
 
-    public Likes() {}
+    public Likes() {
+
+    }
 
 }

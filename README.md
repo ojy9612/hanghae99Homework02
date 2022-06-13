@@ -21,7 +21,7 @@
 - 해결 - 게시글과 유저는 OneToMany 관계인데 OneToOne을 사용했을 때 나오는 에러였다..
 
 4. 게시글 작성시 userDetailsImpl 객체에서 유저 정보를 받아오지만 Board객체를 생성할때엔 User객체가 필요해 결국 User관련 DB쿼리문이 2번 발생한다. 1번문제 다시 발생..  객체대신 아이디만 저장해야할까?(그럼 외래키는 어떻게 해야하지?)
-- 해결 - 해당 프로젝트에는 ID만 저장하는 것이 효율적이나 큰 프로젝트를 할 때엔 객체를 저장하는 것이 낫다고 생각한다. DB가 복잡해질수록 객체를 타고가는 것이 쿼리문을 여러번 날리는 것보다 빠를것이다.
+- 해결 - 해당 프로젝트에는 ID만 저장하는 것이 효율적이나 큰 프로젝트를 할 때엔 객체를 저장하는 것이 낫다는 얘기를 들었다. DB가 복잡해질수록 객체를 타고가는 것이 쿼리문을 여러번 날리는 것보다 빠를것이다.
 
 5. (No serializer found for class org.hibernate.proxy.pojo.bytebuddy.ByteBuddyInterceptor and no properties discovered to create BeanSerializer) 에러  
 - 해결 - LAZY를 적용시켜 자식 객체를 불러오기전에 부모 객체를 JSON으로 직렬화시킬때 나는 에러다. 문제가되는 컬럼에 @JsonIgnore 어노테이션을 달아 직렬화되지 않게 바꿔주었다.

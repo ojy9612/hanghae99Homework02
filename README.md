@@ -11,7 +11,7 @@
 
 
 # 트러블슈팅!
-1. 스파르타 강의에서는 UserDetailsImpl에 User 객체를 넣어서 관리 했지만 객체를 넣을 경우 db쿼리문이 계속 발생하는 문제가 있다.(강의에서 정정하는것을 퀴즈로 내주고 답은 공개하지 않았다.) 
+1. 스파르타 강의에서는 UserDetailsImpl에 User 객체를 넣어서 관리 했지만 객체를 넣을 경우 토큰인증을 할 때 마다 db쿼리문이 2번씩 발생하는 문제가 있다.(강의에서 정정하는것을 퀴즈로 내주고 답은 공개하지 않았다.) 
 - 해결 - UserDetailsImpl의 User객체를 id,password,roles String타입으로 바꿔서 저장했다.
 
 2. (should be mapped with insert="false" update="false") 에러 board테이블에서 자꾸 해당 에러가 뜬다.

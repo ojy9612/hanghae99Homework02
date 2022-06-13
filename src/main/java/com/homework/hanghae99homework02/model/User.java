@@ -37,11 +37,16 @@ public class User{
     @Column
     private int layout = 1;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Board> boardList = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Likes likes;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Likes> likesList = new ArrayList<>();
+
+    public void addLikes(Likes likes){
+        likes.setUser(this);
+        this.likesList.add(likes);
+    }
 
     public void addBoard(Board board){
         this.boardList.add(board);

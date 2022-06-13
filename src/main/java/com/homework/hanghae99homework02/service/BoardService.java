@@ -35,10 +35,7 @@ public class BoardService {
         );
         Board board = new Board(boardDto.getImage(),
                 boardDto.getContent(),
-                user,null);
-        System.out.println("user.getEmail() = " + user.getEmail());
-        System.out.println("board.getImage() = " + board.getImage());
-
+                user);
         return boardRepository.save(board);
     }
 

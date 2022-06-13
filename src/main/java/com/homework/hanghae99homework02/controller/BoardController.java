@@ -21,7 +21,7 @@ public class BoardController {
     private final BoardService boardService;
 
     @GetMapping("/api/board")
-    public List<Board> getAllBoard(@AuthenticationPrincipal UserDetailsImpl userDetails){
+    public List<Board> getAllBoard(){
 
         return boardService.getAllBoard();
     }

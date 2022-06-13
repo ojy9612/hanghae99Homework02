@@ -16,20 +16,15 @@ public class Likes{
     @Id
     private Long id;
 
-    @OneToMany(mappedBy = "likes", fetch = FetchType.LAZY)
-    private List<User> userList = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 
-    @OneToMany(mappedBy = "likes", fetch = FetchType.LAZY)
-    private List<Board> boardList = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Board board;
 
-    public void addUser(User user){
-        user.setLikes(this);
-        this.userList.add(user);
-    }
-
-    public void addBoard(Board board){
-        board.setLikes(this);
-        this.boardList.add(board);
+    public Likes(User user, Board board){
+        user.addLikes(this);
+        board.addLikes(this);
     }
 
     public Likes() {

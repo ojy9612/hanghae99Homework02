@@ -24,7 +24,7 @@
 - 해결 - 해당 프로젝트에는 ID만 저장하는 것이 효율적이나 큰 프로젝트를 할 때엔 객체를 저장하는 것이 낫다는 얘기를 들었다. DB가 복잡해질수록 객체를 타고가는 것이 쿼리문을 여러번 날리는 것보다 빠를것이다.
 
 5. (No serializer found for class org.hibernate.proxy.pojo.bytebuddy.ByteBuddyInterceptor and no properties discovered to create BeanSerializer) 에러  
-- 해결 - LAZY를 적용시켜 자식 객체를 불러오기전에 부모 객체를 JSON으로 직렬화시킬때 나는 에러다. 문제가되는 컬럼에 @JsonIgnore 어노테이션을 달아 직렬화되지 않게 바꿔주었다.
+- 해결 - LAZY를 적용시켜 자식 객체를 불러오기전에 부모 객체를 JSON으로 직렬화시킬때 나는 에러다.문제가 되는 컬럼을 EAGER로 바꾸고 필요 없는 컬럼에 @JsonIgnore 어노테이션을 달아 직렬화되지 않게 바꿔주었다.
 
 6. 게시글(Board) 삭제시 좋아요(Likes)객체가 참조중이여서 삭제가 안되는 문제
 - 해결 - (orphanRemoval = true) 옵션을 넣어줘서 게시글삭제시 Likes DB의 데이터까지 한번에 삭제되도록 함

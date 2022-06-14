@@ -2,6 +2,8 @@ package com.homework.hanghae99homework02.service;
 
 import com.homework.hanghae99homework02.dto.AwsS3;
 import com.homework.hanghae99homework02.dto.BoardDto;
+import com.homework.hanghae99homework02.exception.ErrorCode;
+import com.homework.hanghae99homework02.exception.WrongIdException;
 import com.homework.hanghae99homework02.model.Board;
 import com.homework.hanghae99homework02.model.User;
 import com.homework.hanghae99homework02.repository.BoardRepository;
@@ -76,7 +78,7 @@ public class BoardService {
             boardRepository.delete(board);
             return board_id;
         }else{
-            return null; // Bad Request 400 에러 보내기 https://bcp0109.tistory.com/303 TODO
+            throw new WrongIdException(ErrorCode.JUST_HANDLE_SELF);
         }
 
     }
@@ -106,7 +108,7 @@ public class BoardService {
             board.update(awsS3.getPath(), awsS3.getKey(), boardDto.getContent(), boardDto.getLayout());
             return board;
         }else{
-            return null;
+            throw new WrongIdException(ErrorCode.JUST_HANDLE_SELF);
         }
     }
 

@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 public class UserController {
 
@@ -21,12 +23,12 @@ public class UserController {
 
 
     @PostMapping("/api/login")
-    public String loginUser(@RequestBody UserDto userDto) {
+    public String loginUser(@Valid @RequestBody UserDto userDto) {
         return userService.loginUser(userDto);
     }
 
     @PostMapping("/api/register")
-    public void registerUser(@RequestBody RegisterDto registerDto){
+    public void registerUser(@Valid @RequestBody RegisterDto registerDto){
         userService.registerUser(registerDto);
     }
 

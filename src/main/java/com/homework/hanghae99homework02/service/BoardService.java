@@ -113,16 +113,4 @@ public class BoardService {
         }
     }
 
-
-    public void filetest(MultipartFile multipartFile) {
-        AwsS3 awsS3;
-        try {
-            awsS3 = awsS3Service.upload(multipartFile,"mydir");
-        } catch (IOException e) {
-            System.out.println(111);
-            throw new RuntimeException(e);
-        }
-
-    }
-
 }

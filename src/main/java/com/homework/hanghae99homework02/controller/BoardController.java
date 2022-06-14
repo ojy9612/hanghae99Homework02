@@ -31,16 +31,13 @@ public class BoardController {
 
     @PostMapping("/api/board")
     public Board createBoard(@RequestParam("image") MultipartFile multipartFile,
-                             @RequestBody BoardDto boardDto,
+                             @RequestParam("layout") int layout,
+                             @RequestParam("content") String content,
                              @AuthenticationPrincipal UserDetailsImpl userDetails){
-        System.out.println(111);
+        BoardDto boardDto = new BoardDto(layout,content);
         return boardService.createBoard(multipartFile,boardDto,userDetails);
     }
 
-    @PostMapping("/api/file")
-    public void qqq(@RequestParam("image") MultipartFile multipartFile){
-        boardService.filetest(multipartFile);
-    }
 
     @GetMapping("/api/board/{board_id}")
     public Board getOneBoard(@PathVariable Long board_id){

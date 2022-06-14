@@ -1,13 +1,13 @@
 package com.homework.hanghae99homework02.dto;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Setter
+import javax.validation.constraints.NotEmpty;
+
 @Getter
-@NoArgsConstructor
 public class BoardDto {
-    private String image;
+
+    private int layout;
     private String content;
+
 }

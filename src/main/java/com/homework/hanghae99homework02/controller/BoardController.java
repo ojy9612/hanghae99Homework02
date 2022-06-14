@@ -8,6 +8,7 @@ import com.homework.hanghae99homework02.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -20,18 +21,22 @@ public class BoardController {
     }
     private final BoardService boardService;
 
+
     @GetMapping("/api/board")
     public List<Board> getAllBoard(){
 
         return boardService.getAllBoard();
     }
 
+
     @PostMapping("/api/board")
-    public Board createBoard(@RequestBody BoardDto boardDto,@AuthenticationPrincipal UserDetailsImpl userDetails){
-        System.out.println("boardDto.getContent() = " + boardDto.getContent());
-        System.out.println("userDetails.getUsername() = " + userDetails.getUsername());
-        return boardService.createBoard(boardDto,userDetails);
+    public Board createBoard(@RequestParam("image") MultipartFile multipartFile,
+                             @RequestBody BoardDto boardDto,
+                             @AuthenticationPrincipal UserDetailsImpl userDetails){
+
+        return boardService.createBoard(multipartFile,boardDto,userDetails);
     }
+
 
     @GetMapping("/api/board/{board_id}")
     public Board getOneBoard(@PathVariable Long board_id){
@@ -39,18 +44,22 @@ public class BoardController {
         return boardService.getOneBoard(board_id);
     }
 
+
     @DeleteMapping("/api/board/{board_id}")
-    public Long removeBoard(@PathVariable Long board_id, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public Long removeBoard(@PathVariable Long board_id,
+                            @AuthenticationPrincipal UserDetailsImpl userDetails){
 
         return boardService.removeBoard(board_id,userDetails);
     }
 
+
     @PutMapping("/api/board/{board_id}")
-    public Board updateBoard(@PathVariable Long board_id,
+    public Board updateBoard(@RequestParam("image") MultipartFile multipartFile,
+                             @PathVariable Long board_id,
                              @RequestBody BoardDto boardDto,
                              @AuthenticationPrincipal UserDetailsImpl userDetails){
 
-        return boardService.updateBoard(board_id,boardDto,userDetails);
+        return boardService.updateBoard(multipartFile,board_id,boardDto,userDetails);
     }
 
 }

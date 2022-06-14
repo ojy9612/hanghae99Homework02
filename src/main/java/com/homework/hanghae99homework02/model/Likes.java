@@ -1,16 +1,17 @@
 package com.homework.hanghae99homework02.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Setter
 @Getter
 @Entity
-public class Likes{
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "id")
+public class Likes extends Timestamped {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id

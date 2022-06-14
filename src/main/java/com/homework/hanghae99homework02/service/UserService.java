@@ -46,13 +46,4 @@ public class UserService {
         return jwtTokenProvider.createToken(user.getEmail(), user.getRoles());
     }
 
-    @Transactional
-    public int setLayout(int layout, UserDetailsImpl userDetailsImpl) {
-        User user = userRepository.findByEmail(userDetailsImpl.getUsername()).orElseThrow(
-                () -> new IllegalArgumentException("해당 유저를 찾을 수 없습니다.")
-        );
-
-        user.setLayout(layout);
-        return layout;
-    }
 }

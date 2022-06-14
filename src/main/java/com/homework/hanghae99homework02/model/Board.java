@@ -3,6 +3,7 @@ package com.homework.hanghae99homework02.model;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.homework.hanghae99homework02.dto.AwsS3;
 import com.homework.hanghae99homework02.dto.BoardDto;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,25 +16,31 @@ import java.util.List;
 @Setter
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "id")
-public class Board {
+public class Board extends Timestamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long board_id;
 
     @Column
-    private String image;
+    private String imageLink;
+
+    @Column
+    private String imageKey;
 
     @Column
     private String content;
+
+    @Column
+    private int layout = 1;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id",nullable = false)
     private User user;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY, orphanRemoval = true)
+
+    @OneToMany(mappedBy = "board", fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Likes> likesList = new ArrayList<>();
 
 
@@ -42,16 +49,19 @@ public class Board {
         this.likesList.add(likes);
     }
 
-    public Board(String image, String content, User user) {
-        this.image = image;
+    public Board(String imageLink, String imageKey, String content,int layout, User user) {
+        this.imageLink = imageLink;
+        this.imageKey = imageKey;
         this.content = content;
+        this.layout = layout;
         user.addBoard(this);
-
     }
 
-    public void update(BoardDto boardDto){
-        this.image = boardDto.getImage();
-        this.content = boardDto.getContent();
+    public void update(String imageLink, String imageKey, String content, int layout){
+        this.imageLink = imageLink;
+        this.imageKey = imageKey;
+        this.content = content;
+        this.layout = layout;
     }
 
     public Board(){

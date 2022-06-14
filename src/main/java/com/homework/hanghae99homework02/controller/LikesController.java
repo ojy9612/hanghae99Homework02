@@ -11,12 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class LikesController {
 
-    @Autowired
     private final LikesService likesService;
 
+    @Autowired
     public LikesController(LikesService likesService) {
         this.likesService = likesService;
     }
+
 
     @GetMapping("/api/board/{boardId}/like")
     public void GoLikes(@PathVariable Long boardId,@AuthenticationPrincipal UserDetailsImpl userDetails){

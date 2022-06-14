@@ -12,7 +12,7 @@ import java.util.List;
 @Setter
 @Getter
 @Entity
-public class User{
+public class User extends Timestamped{
 
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
@@ -33,9 +33,6 @@ public class User{
 
     @Column(nullable = false)
     private String nickname;
-
-    @Column
-    private int layout = 1;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Board> boardList = new ArrayList<>();

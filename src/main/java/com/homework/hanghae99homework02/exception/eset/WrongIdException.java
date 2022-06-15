@@ -1,6 +1,7 @@
-package com.homework.hanghae99homework02.exception;
+package com.homework.hanghae99homework02.exception.eset;
 
 
+import com.homework.hanghae99homework02.exception.ErrorCode;
 import lombok.Getter;
 
 @Getter

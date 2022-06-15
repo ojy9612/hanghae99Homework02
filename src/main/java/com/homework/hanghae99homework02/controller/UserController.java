@@ -29,6 +29,7 @@ public class UserController {
 
     @PostMapping("/api/register")
     public void registerUser(@Valid @RequestBody RegisterDto registerDto){
+        registerDto.checkPassword();
         userService.registerUser(registerDto);
     }
 

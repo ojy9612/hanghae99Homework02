@@ -2,8 +2,7 @@ package com.homework.hanghae99homework02.service;
 
 import com.homework.hanghae99homework02.dto.AwsS3;
 import com.homework.hanghae99homework02.dto.BoardDto;
-import com.homework.hanghae99homework02.exception.ErrorCode;
-import com.homework.hanghae99homework02.exception.WrongIdException;
+import com.homework.hanghae99homework02.exception.eset.WrongIdException;
 import com.homework.hanghae99homework02.model.Board;
 import com.homework.hanghae99homework02.model.User;
 import com.homework.hanghae99homework02.repository.BoardRepository;
@@ -17,6 +16,8 @@ import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+
+import static com.homework.hanghae99homework02.exception.ErrorCode.JUST_HANDLE_SELF;
 
 @Service
 public class BoardService {
@@ -36,6 +37,7 @@ public class BoardService {
         return boardRepository.findAll();
     }
 
+    @Transactional
     public Board createBoard(MultipartFile multipartFile, BoardDto boardDto, UserDetailsImpl userDetailsImpl) {
         User user = userRepository.findByEmail(userDetailsImpl.getUsername()).orElseThrow(
                 () -> new IllegalArgumentException("해당 유저를 찾을 수 없습니다.")
@@ -45,7 +47,6 @@ public class BoardService {
         try {
             awsS3 = awsS3Service.upload(multipartFile,"mydir");
         } catch (IOException e) {
-            System.out.println(111);
             throw new RuntimeException(e);
         }
 
@@ -62,12 +63,13 @@ public class BoardService {
     }
 
 
+    @Transactional
     public Long removeBoard(Long board_id, UserDetailsImpl userDetailsImpl) {
         Board board = boardRepository.findById(board_id).orElseThrow(
-                () -> new IllegalArgumentException("ID를 찾을 수 없습니다.")
+                () -> new IllegalArgumentException("게시글 ID를 찾을 수 없습니다 : " + board_id)
         );
         User user = userRepository.findByEmail(userDetailsImpl.getUsername()).orElseThrow(
-                () -> new IllegalArgumentException("해당 유저를 찾을 수 없습니다.")
+                () -> new IllegalArgumentException(userDetailsImpl.getUsername() + " 해당 유저를 찾을 수 없습니다.")
         );
 
         if(Objects.equals(board.getUser().getId(), user.getId())){
@@ -79,7 +81,7 @@ public class BoardService {
             boardRepository.delete(board);
             return board_id;
         }else{
-            throw new WrongIdException(ErrorCode.JUST_HANDLE_SELF);
+            throw new WrongIdException(JUST_HANDLE_SELF);
         }
 
     }
@@ -87,10 +89,10 @@ public class BoardService {
     @Transactional
     public Board updateBoard(MultipartFile multipartFile,Long board_id, BoardDto boardDto, UserDetailsImpl userDetailsImpl) {
         Board board = boardRepository.findById(board_id).orElseThrow(
-                () -> new IllegalArgumentException("ID를 찾을 수 없습니다.")
+                () -> new IllegalArgumentException("게시글 ID를 찾을 수 없습니다 : " + board_id)
         );
         User user = userRepository.findByEmail(userDetailsImpl.getUsername()).orElseThrow(
-                () -> new IllegalArgumentException("해당 유저를 찾을 수 없습니다.")
+                () -> new IllegalArgumentException(userDetailsImpl.getUsername() + " 해당 유저를 찾을 수 없습니다.")
         );
 
         if(Objects.equals(board.getUser().getId(), user.getId())){
@@ -109,7 +111,7 @@ public class BoardService {
             board.update(awsS3.getPath(), awsS3.getKey(), boardDto.getContent(), boardDto.getLayout());
             return board;
         }else{
-            throw new WrongIdException(ErrorCode.JUST_HANDLE_SELF);
+            throw new WrongIdException(JUST_HANDLE_SELF);
         }
     }
 

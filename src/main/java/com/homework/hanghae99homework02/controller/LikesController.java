@@ -21,6 +21,7 @@ public class LikesController {
 
     @GetMapping("/api/board/{boardId}/like")
     public void GoLikes(@PathVariable Long boardId,@AuthenticationPrincipal UserDetailsImpl userDetails){
+        ControllerFunc.userchecker(userDetails);
         likesService.GoLikes(boardId,userDetails);
     }
 

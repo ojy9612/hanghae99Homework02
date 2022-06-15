@@ -50,6 +50,7 @@ public class BoardController {
     public Long removeBoard(@PathVariable Long board_id,
                             @AuthenticationPrincipal UserDetailsImpl userDetails){
 
+        ControllerFunc.userchecker(userDetails);
         return boardService.removeBoard(board_id,userDetails);
     }
 
@@ -60,6 +61,7 @@ public class BoardController {
                              @RequestBody BoardDto boardDto,
                              @AuthenticationPrincipal UserDetailsImpl userDetails){
 
+        ControllerFunc.userchecker(userDetails);
         return boardService.updateBoard(multipartFile,board_id,boardDto,userDetails);
     }
 

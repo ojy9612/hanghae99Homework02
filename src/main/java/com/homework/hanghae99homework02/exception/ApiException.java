@@ -1,5 +1,7 @@
 package com.homework.hanghae99homework02.exception;
 
+import com.homework.hanghae99homework02.exception.eset.WhoAreYouException;
+import com.homework.hanghae99homework02.exception.eset.WrongIdException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -30,7 +32,12 @@ public class ApiException extends RuntimeException{
     }
 
     @ExceptionHandler(value = { WrongIdException.class })
-    protected ResponseEntity<ErrorResponse> handleCustomException(WrongIdException e) {
+    protected ResponseEntity<ErrorResponse> handleWrongIdException(WrongIdException e) {
+        return ErrorResponse.toResponseEntity(e.getErrorCode());
+    }
+
+    @ExceptionHandler(value = { WhoAreYouException.class })
+    protected ResponseEntity<ErrorResponse> handleWhoAreYouException(WhoAreYouException e) {
         return ErrorResponse.toResponseEntity(e.getErrorCode());
     }
 }

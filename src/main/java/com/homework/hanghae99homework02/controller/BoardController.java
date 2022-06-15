@@ -5,6 +5,7 @@ import com.homework.hanghae99homework02.dto.BoardDto;
 import com.homework.hanghae99homework02.model.Board;
 import com.homework.hanghae99homework02.security.UserDetailsImpl;
 import com.homework.hanghae99homework02.service.BoardService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 public class BoardController {
 

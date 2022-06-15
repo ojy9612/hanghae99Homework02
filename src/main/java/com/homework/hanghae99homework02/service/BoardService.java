@@ -44,16 +44,24 @@ public class BoardService {
                 () -> new IllegalArgumentException("해당 유저를 찾을 수 없습니다.")
         );
 
-        AwsS3 awsS3;
-        try {
-            awsS3 = awsS3Service.upload(multipartFile,"mydir");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+
+        if (!(multipartFile.getContentType()==null)){
+            AwsS3 awsS3;
+            try {
+                awsS3 = awsS3Service.upload(multipartFile,"mydir");
+            } catch (IOException e) {
+                throw new RuntimeException("올바르지 않은 이미지 파일 입니다.");
+            }
+
+            Board board = new Board(awsS3.getPath(), awsS3.getKey(), boardDto.getContent(), boardDto.getLayout(), user);
+            return boardRepository.save(board);
+
+        }else{
+            Board board = new Board("", "", boardDto.getContent(), boardDto.getLayout(), user);
+            return boardRepository.save(board);
         }
 
-        Board board = new Board(awsS3.getPath(), awsS3.getKey(), boardDto.getContent(), boardDto.getLayout(), user);
 
-        return boardRepository.save(board);
     }
 
 
@@ -74,10 +82,12 @@ public class BoardService {
         );
 
         if(Objects.equals(board.getUser().getId(), user.getId())){
-            awsS3Service.remove(AwsS3.builder()
-                            .key(board.getImageKey())
-                            .path(board.getImageLink())
-                            .build());
+            if (board.getImageLink() != null){
+                awsS3Service.remove(AwsS3.builder()
+                        .key(board.getImageKey())
+                        .path(board.getImageLink())
+                        .build());
+            }
 
             boardRepository.delete(board);
             return board_id;

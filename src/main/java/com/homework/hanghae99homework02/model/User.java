@@ -23,9 +23,6 @@ public class User extends Timestamped{
     @Id
     private Long id;
 
-    @Column(nullable = false)
-    private String name;
-
     @JsonIgnore
     @Column(nullable = false)
     private String password;
@@ -57,8 +54,7 @@ public class User extends Timestamped{
     }
 
     @Builder
-    public User(String name, String password, List<String> roles, String email, String nickname) {
-        this.name = name;
+    public User(String password, List<String> roles, String email, String nickname) {
         this.password = password;
         this.roles = roles;
         this.email = email;

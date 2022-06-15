@@ -32,7 +32,7 @@ public class LikesService {
                 () -> new IllegalArgumentException("해당 유저를 찾을 수 없습니다.")
         );
         Board board = boardRepository.findById(boardId).orElseThrow(
-                () -> new IllegalArgumentException("ID를 찾을 수 없습니다.")
+                () -> new IllegalArgumentException("게시글 ID를 찾을 수 없습니다.")
         );
 
         Optional<Likes> optionalLikes = likesRepository.findByBoardAndUser(board, user);

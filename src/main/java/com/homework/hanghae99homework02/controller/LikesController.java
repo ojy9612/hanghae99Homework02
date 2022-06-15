@@ -20,7 +20,8 @@ public class LikesController {
 
 
     @GetMapping("/api/board/{boardId}/like")
-    public String GoLikes(@PathVariable Long boardId,@AuthenticationPrincipal UserDetailsImpl userDetails){
+    public String GoLikes(@PathVariable Long boardId,
+                          @AuthenticationPrincipal UserDetailsImpl userDetails){
         ControllerFunc.userchecker(userDetails);
         return likesService.GoLikes(boardId,userDetails);
     }

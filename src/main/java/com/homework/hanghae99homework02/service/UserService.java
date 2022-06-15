@@ -29,7 +29,6 @@ public class UserService {
             throw new IllegalArgumentException("중복된 사용자 ID 가 존재합니다.");
         }
         userRepository.save(User.builder()
-                .name(registerDto.getName())
                 .password(passwordEncoder.encode(registerDto.getPassword()))
                 .roles(Collections.singletonList("ROLE_USER"))
                 .email(email)

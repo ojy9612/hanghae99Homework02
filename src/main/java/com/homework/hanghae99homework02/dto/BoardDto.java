@@ -8,10 +8,10 @@ import javax.validation.constraints.NotEmpty;
 @Getter
 public class BoardDto {
 
-    @NotEmpty(message = "경태님? layout 비었어요")
+    @NotEmpty(message = "layout 비었어요.")
     private int layout;
 
-    @NotEmpty(message = "경태님?? content비었어요")
+    @NotEmpty(message = "content 비었어요.")
     private String content;
 
     public BoardDto(int layout, String content) {

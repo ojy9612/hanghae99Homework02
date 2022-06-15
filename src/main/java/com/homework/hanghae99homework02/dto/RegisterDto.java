@@ -24,8 +24,6 @@ public class RegisterDto {
             message = "최소 3자 이상, 알파벳 대소문자(a~z, A~Z), 숫자(0~9)로 구성되어야 합니다.")
     private String nickname;
 
-    private String name;
-
     @AssertTrue(message = "이메일이나 닉네임이 비밀번호에 포함되면 안됩니다.")
     public boolean checkPassword() {
         return !this.password.contains(this.email.split("@")[0])

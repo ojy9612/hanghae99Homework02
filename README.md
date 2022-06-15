@@ -35,7 +35,8 @@ REST API는 http통신에 CRUD요청을 Method로 표현해 특정 방식으로 
 - Content-Type : application/json 을 우선으로 사용했고 통일시켰다.
 
 ### Entity 설계를 위해 무엇을 하였나요? 연관관계에 근거하여 설명해주세요.
-- 
+- Like기능은 Board와 User의 N:N관계라는 것에 기반해 Like Table을 만든 뒤 1:N 으로 Like와 Board,Uesr를 연결시켜주었다.
+N:N으로 설계시 Talbe의 책임분리가 안된다. 그리고 JPA를 사용하는데에 어려움이 있어 실무에서는 사용하지 않는다고 들었다.
 
 
 ### 번외. **CORS 해결하기**

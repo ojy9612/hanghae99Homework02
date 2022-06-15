@@ -9,6 +9,7 @@ import com.homework.hanghae99homework02.repository.BoardRepository;
 import com.homework.hanghae99homework02.repository.UserRepository;
 import com.homework.hanghae99homework02.security.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,7 +35,7 @@ public class BoardService {
     }
 
     public List<Board> getAllBoard(){
-        return boardRepository.findAll();
+        return boardRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
     }
 
     @Transactional

@@ -25,6 +25,7 @@ public class Board extends Timestamped {
     @Column
     private String imageLink;
 
+    @JsonIgnore
     @Column
     private String imageKey;
 
@@ -34,7 +35,7 @@ public class Board extends Timestamped {
     @Column
     private int layout = 1;
 
-    @JsonIgnore
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id",nullable = false)
     private User user;

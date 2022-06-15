@@ -1,5 +1,8 @@
 package com.homework.hanghae99homework02.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,8 +15,10 @@ import java.util.List;
 @Setter
 @Getter
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "id")
 public class User extends Timestamped{
 
+    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private Long id;
@@ -21,6 +26,7 @@ public class User extends Timestamped{
     @Column(nullable = false)
     private String name;
 
+    @JsonIgnore
     @Column(nullable = false)
     private String password;
 

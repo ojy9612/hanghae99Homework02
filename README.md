@@ -5,24 +5,37 @@
 - 라이브러리는 IOC가 일어나지 않는다.
 
 ## 코드를 구현할때 예외처리를 위해 무엇을 했나요?
-- 예외를 직접 만들고 에러코드도 직접만들어서 프론트가 작업하기 쉽게 만들었습니다.
+- 예외를 직접 만들고 에러코드도 직접만들어서 프론트가 작업하기 쉽게 만들었다.
 
 
 ## Restful이란?
 - 올바르게 REST API를 설계하는것.
-REST API는 http통신에 CRUD요청을 Method로 표현해 JSON형태로 전달하는 방식.
+REST API는 http통신에 CRUD요청을 Method로 표현해 특정 방식으로 전달하는 방식.
 
 ## 왜 Restful하게 짜야하나요?
-- 
+- 하나의 서버로 다양한 client를 수용하기 위해서 Restful하게 코드를 짜야합니다.
 
 ## Restful의 장/단점
+1. **장점**
+- 알아보기 쉬워진다. API의 이름이 굉장히 직관적이여서 한눈에 무슨 동작을 하는지 알 수 있다.
+2. **단점**
+- 누군가 공식적으로 발표한 방식이 아니기 때문에 사람마다 다르게 해석할 수 있다.
+- 서비스와 복잡해질수록 Over-Fetching 과 Under-Fetching 문제가 발생할 수 있다.
+- Over-Fetching : user_id만 필요하지만 user전체를 전송하게됨.
+- Under-Fetching : 원하는 데이터를 위해 여러API를 호출함.
+- HTTP에 의존적이다. Rest는 point-to-point 통신모델(Web)을 기본으로하므로 서버-클라이언트가 연결을 유지한채 상호작용하는 어플리케이션 개발에는 적당하지 않다. 
+- CRUD를 제외한 처리는 힘들다.
 
 ## Restful의 대안은?
-
+- GraphQL은 Rest API의 단점을 보안하기 위해 나왔다.
+- Over-Fetching 과 Under-Fetching 문제를 큰 자원소모 없이 해결할 수 있다.
 ## Restful하게 짜기 위해 무엇을 고려했나요?
+- API Url을 통일시키고 Delete,Put 같은 Method를 적극적으로 사용했다.
+- 대문자를 사용 X, 동사 포함 X, 마지막에 '/'사용 X, 확장자 사용 X 등 API명에 신경썼다.
+- Content-Type : application/json 을 우선으로 사용했고 통일시켰다.
 
 ## Entity 설계를 위해 무엇을 하였나요? 연관관계에 근거하여 설명해주세요.
-
+- 
 
 
 번외. **CORS 해결하기**

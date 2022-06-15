@@ -2,6 +2,7 @@ package com.homework.hanghae99homework02.service;
 
 import com.homework.hanghae99homework02.dto.AwsS3;
 import com.homework.hanghae99homework02.dto.BoardDto;
+import com.homework.hanghae99homework02.dto.BoardResponseDto;
 import com.homework.hanghae99homework02.exception.eset.WrongIdException;
 import com.homework.hanghae99homework02.model.Board;
 import com.homework.hanghae99homework02.model.User;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -34,17 +36,24 @@ public class BoardService {
         this.awsS3Service = awsS3Service;
     }
 
-    public List<Board> getAllBoard(){
-        return boardRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
+    public List<BoardResponseDto> getAllBoard(){
+        List<Board> boardList = boardRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
+
+        List<BoardResponseDto> boardResponseDtoList = new ArrayList<>();
+        for (Board board: boardList){
+            boardResponseDtoList.add(new BoardResponseDto(board));
+        }
+        return boardResponseDtoList;
     }
 
     @Transactional
-    public Board createBoard(MultipartFile multipartFile, BoardDto boardDto, UserDetailsImpl userDetailsImpl) {
+    public BoardResponseDto createBoard(MultipartFile multipartFile, BoardDto boardDto, UserDetailsImpl userDetailsImpl) {
         User user = userRepository.findByEmail(userDetailsImpl.getUsername()).orElseThrow(
                 () -> new IllegalArgumentException("해당 유저를 찾을 수 없습니다.")
         );
 
 
+        Board board;
         if (!(multipartFile.getContentType()==null)){
             AwsS3 awsS3;
             try {
@@ -53,22 +62,22 @@ public class BoardService {
                 throw new RuntimeException("올바르지 않은 이미지 파일 입니다.");
             }
 
-            Board board = new Board(awsS3.getPath(), awsS3.getKey(), boardDto.getContent(), boardDto.getLayout(), user);
-            return boardRepository.save(board);
+            board = new Board(awsS3.getPath(), awsS3.getKey(), boardDto.getContent(), boardDto.getLayout(), user);
 
         }else{
-            Board board = new Board("", "", boardDto.getContent(), boardDto.getLayout(), user);
-            return boardRepository.save(board);
+            board = new Board("", "", boardDto.getContent(), boardDto.getLayout(), user);
         }
+        return new BoardResponseDto(boardRepository.save(board));
 
 
     }
 
 
-    public Board getOneBoard(Long board_id) {
-        return boardRepository.findById(board_id).orElseThrow(
+    public BoardResponseDto getOneBoard(Long board_id) {
+        Board board = boardRepository.findById(board_id).orElseThrow(
                 () -> new IllegalArgumentException("ID를 찾을 수 없습니다.")
         );
+        return new BoardResponseDto(board);
     }
 
 
@@ -98,7 +107,7 @@ public class BoardService {
     }
 
     @Transactional
-    public Board updateBoard(MultipartFile multipartFile,Long board_id, BoardDto boardDto, UserDetailsImpl userDetailsImpl) {
+    public BoardResponseDto updateBoard(MultipartFile multipartFile, Long board_id, BoardDto boardDto, UserDetailsImpl userDetailsImpl) {
         Board board = boardRepository.findById(board_id).orElseThrow(
                 () -> new IllegalArgumentException("게시글 ID를 찾을 수 없습니다 : " + board_id)
         );
@@ -107,20 +116,25 @@ public class BoardService {
         );
 
         if(Objects.equals(board.getUser().getId(), user.getId())){
-            awsS3Service.remove(AwsS3.builder()
-                            .path(board.getImageLink())
-                            .key(board.getImageKey())
-                            .build());
-
-            AwsS3 awsS3;
-            try {
-                awsS3 = awsS3Service.upload(multipartFile, "mydir");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+            if (board.getImageLink() != null) {
+                awsS3Service.remove(AwsS3.builder()
+                        .path(board.getImageLink())
+                        .key(board.getImageKey())
+                        .build());
             }
+            if (!(multipartFile.getContentType()==null)) {
+                AwsS3 awsS3;
+                try {
+                    awsS3 = awsS3Service.upload(multipartFile, "mydir");
+                } catch (IOException e) {
+                    throw new RuntimeException("올바르지 않은 이미지 파일 입니다.");
+                }
 
-            board.update(awsS3.getPath(), awsS3.getKey(), boardDto.getContent(), boardDto.getLayout());
-            return board;
+                board.update(awsS3.getPath(), awsS3.getKey(), boardDto.getContent(), boardDto.getLayout());
+            }else{
+                board.update("", "", boardDto.getContent(), boardDto.getLayout());
+            }
+            return new BoardResponseDto(board);
         }else{
             throw new WrongIdException(JUST_HANDLE_SELF);
         }

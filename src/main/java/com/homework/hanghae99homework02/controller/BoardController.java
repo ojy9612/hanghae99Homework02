@@ -2,6 +2,7 @@ package com.homework.hanghae99homework02.controller;
 
 
 import com.homework.hanghae99homework02.dto.BoardDto;
+import com.homework.hanghae99homework02.dto.BoardResponseDto;
 import com.homework.hanghae99homework02.model.Board;
 import com.homework.hanghae99homework02.security.UserDetailsImpl;
 import com.homework.hanghae99homework02.service.BoardService;
@@ -25,14 +26,14 @@ public class BoardController {
 
 
     @GetMapping("/api/boards")
-    public List<Board> getAllBoard(){
+    public List<BoardResponseDto> getAllBoard(){
 
         return boardService.getAllBoard();
     }
 
 
     @PostMapping("/api/board")
-    public Board createBoard(@RequestParam("image") MultipartFile multipartFile,
+    public BoardResponseDto createBoard(@RequestParam("image") MultipartFile multipartFile,
                              @RequestParam("layout") int layout,
                              @RequestParam("content") String content,
                              @AuthenticationPrincipal UserDetailsImpl userDetails){
@@ -42,7 +43,7 @@ public class BoardController {
 
 
     @GetMapping("/api/board/{board_id}")
-    public Board getOneBoard(@PathVariable Long board_id){
+    public BoardResponseDto getOneBoard(@PathVariable Long board_id){
 
         return boardService.getOneBoard(board_id);
     }
@@ -58,10 +59,10 @@ public class BoardController {
 
 
     @PutMapping("/api/board/{board_id}")
-    public Board updateBoard(@RequestParam("image") MultipartFile multipartFile,
-                             @PathVariable Long board_id,
-                             @RequestBody BoardDto boardDto,
-                             @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public BoardResponseDto updateBoard(@RequestParam("image") MultipartFile multipartFile,
+                                        @PathVariable Long board_id,
+                                        @RequestBody BoardDto boardDto,
+                                        @AuthenticationPrincipal UserDetailsImpl userDetails){
 
         ControllerFunc.userchecker(userDetails);
         return boardService.updateBoard(multipartFile,board_id,boardDto,userDetails);

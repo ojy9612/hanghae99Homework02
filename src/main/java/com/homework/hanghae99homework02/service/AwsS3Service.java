@@ -30,10 +30,13 @@ public class AwsS3Service {
     private String bucket;
 
     public AwsS3 upload(MultipartFile multipartFile, String dirName) throws IOException {
-        File file = convertMultipartFileToFile(multipartFile)
-                .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File convert fail"));
+        if (multipartFile.getContentType() != null){
+            File file = convertMultipartFileToFile(multipartFile)
+                    .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File convert fail"));
 
-        return upload(file, dirName);
+            return upload(file, dirName);
+        }
+        return new AwsS3("","");
     }
 
     private AwsS3 upload(File file, String dirName) {
@@ -79,9 +82,11 @@ public class AwsS3Service {
     }
 
     public void remove(AwsS3 awsS3) {
-        if (!amazonS3.doesObjectExist(bucket, awsS3.getKey())) {
-            throw new AmazonS3Exception("Object " +awsS3.getKey()+ " does not exist!");
+        if (!(awsS3.getKey().equals(""))){
+            if (!amazonS3.doesObjectExist(bucket, awsS3.getKey())) {
+                throw new AmazonS3Exception("Object " +awsS3.getKey()+ " does not exist!");
+            }
+            amazonS3.deleteObject(bucket, awsS3.getKey());
         }
-        amazonS3.deleteObject(bucket, awsS3.getKey());
     }
 }

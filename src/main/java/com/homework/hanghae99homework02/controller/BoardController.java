@@ -3,7 +3,6 @@ package com.homework.hanghae99homework02.controller;
 
 import com.homework.hanghae99homework02.dto.BoardDto;
 import com.homework.hanghae99homework02.dto.BoardResponseDto;
-import com.homework.hanghae99homework02.model.Board;
 import com.homework.hanghae99homework02.security.UserDetailsImpl;
 import com.homework.hanghae99homework02.service.BoardService;
 import lombok.extern.slf4j.Slf4j;

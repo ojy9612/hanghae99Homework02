@@ -7,6 +7,7 @@ import com.homework.hanghae99homework02.model.User;
 import com.homework.hanghae99homework02.repository.UserRepository;
 import com.homework.hanghae99homework02.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +15,19 @@ import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.Optional;
 
-@RequiredArgsConstructor
+
 @Service
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
+
+    @Autowired
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtTokenProvider = jwtTokenProvider;
+    }
 
     public void registerUser(RegisterDto registerDto) {
         String email = registerDto.getEmail();

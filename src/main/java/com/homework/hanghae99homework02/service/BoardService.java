@@ -54,19 +54,16 @@ public class BoardService {
 
 
         Board board;
-        if (!(multipartFile.getContentType()==null)){
-            AwsS3 awsS3;
-            try {
-                awsS3 = awsS3Service.upload(multipartFile,"mydir");
-            } catch (IOException e) {
-                throw new RuntimeException("올바르지 않은 이미지 파일 입니다.");
-            }
 
-            board = new Board(awsS3.getPath(), awsS3.getKey(), boardDto.getContent(), boardDto.getLayout(), user);
-
-        }else{
-            board = new Board("", "", boardDto.getContent(), boardDto.getLayout(), user);
+        AwsS3 awsS3;
+        try {
+            awsS3 = awsS3Service.upload(multipartFile,"mydir");
+        } catch (IOException e) {
+            throw new RuntimeException("올바르지 않은 이미지 파일 입니다.");
         }
+
+        board = new Board(awsS3.getPath(), awsS3.getKey(), boardDto.getContent(), boardDto.getLayout(), user);
+
         return new BoardResponseDto(boardRepository.save(board));
 
 
@@ -91,12 +88,12 @@ public class BoardService {
         );
 
         if(Objects.equals(board.getUser().getId(), user.getId())){
-            if (board.getImageLink() != null){
-                awsS3Service.remove(AwsS3.builder()
-                        .key(board.getImageKey())
-                        .path(board.getImageLink())
-                        .build());
-            }
+
+            awsS3Service.remove(AwsS3.builder()
+                    .key(board.getImageKey())
+                    .path(board.getImageLink())
+                    .build());
+
 
             boardRepository.delete(board);
             return board_id;
@@ -116,24 +113,21 @@ public class BoardService {
         );
 
         if(Objects.equals(board.getUser().getId(), user.getId())){
-            if (board.getImageLink() != null) {
-                awsS3Service.remove(AwsS3.builder()
-                        .path(board.getImageLink())
-                        .key(board.getImageKey())
-                        .build());
-            }
-            if (!(multipartFile.getContentType()==null)) {
-                AwsS3 awsS3;
-                try {
-                    awsS3 = awsS3Service.upload(multipartFile, "mydir");
-                } catch (IOException e) {
-                    throw new RuntimeException("올바르지 않은 이미지 파일 입니다.");
-                }
 
-                board.update(awsS3.getPath(), awsS3.getKey(), boardDto.getContent(), boardDto.getLayout());
-            }else{
-                board.update("", "", boardDto.getContent(), boardDto.getLayout());
+            awsS3Service.remove(AwsS3.builder()
+                    .path(board.getImageLink())
+                    .key(board.getImageKey())
+                    .build());
+
+            AwsS3 awsS3;
+            try {
+                awsS3 = awsS3Service.upload(multipartFile, "mydir");
+            } catch (IOException e) {
+                throw new RuntimeException("올바르지 않은 이미지 파일 입니다.");
             }
+
+            board.update(awsS3.getPath(), awsS3.getKey(), boardDto.getContent(), boardDto.getLayout());
+
             return new BoardResponseDto(board);
         }else{
             throw new WrongIdException(JUST_HANDLE_SELF);

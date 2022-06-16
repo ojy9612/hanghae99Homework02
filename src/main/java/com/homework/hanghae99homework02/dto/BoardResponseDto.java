@@ -15,6 +15,7 @@ public class BoardResponseDto {
     private final String imageLink;
     private final String content;
     private final String userNickname;
+    private final String userEmail;
     private final int layout;
     private final List<LikesResponseDto> likes;
     private final LocalDateTime createdAt;
@@ -38,6 +39,7 @@ public class BoardResponseDto {
         this.imageLink = board.getImageLink();
         this.content = board.getContent();
         this.userNickname = board.getUser().getNickname();
+        this.userEmail = board.getUser().getEmail();
         this.layout = board.getLayout();
         this.likes = makeLikesList(board.getLikesList());
         this.createdAt = board.getCreatedAt();

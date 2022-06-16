@@ -31,6 +31,7 @@ public class ApiException extends RuntimeException{
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
+
     @ExceptionHandler(value = { WrongIdException.class })
     protected ResponseEntity<ErrorResponse> handleWrongIdException(WrongIdException e) {
         return ErrorResponse.toResponseEntity(e.getErrorCode());

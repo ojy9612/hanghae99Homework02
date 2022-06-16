@@ -1,4 +1,5 @@
 # hanghae99Homework02
+# https://github.com/ojy9612/hanghae99Homework 에 PR 있습니다!
 
 ### 프레임워크와 라이브러리의 차이점
 - 프레임워크는 IOC가 일어나 프레임워크에 맞춰서 개발자가 개발을 해야한다.
